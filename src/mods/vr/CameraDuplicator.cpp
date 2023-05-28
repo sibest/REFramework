@@ -288,7 +288,6 @@ void CameraDuplicator::copy_camera_properties() {
 
             // Add property jobs, the copying will be spread out over multiple frames as it is a lot of work
             // Call the various getters and setters
-            if (!descriptor.immediate)
             for (const auto& [name, methods] : m_getter_setters[t1]) {
 
                 if (methods.getter == nullptr || methods.setter == nullptr) {
@@ -298,8 +297,8 @@ void CameraDuplicator::copy_camera_properties() {
                 const auto result_type = methods.getter->get_return_type();
                 const auto should_pass_result_ptr = result_type != nullptr && result_type->is_value_type() && (result_type->get_valuetype_size() > sizeof(void*) || (!result_type->is_primitive() && !result_type->is_enum()));
                 
-                m_property_jobs.push_back([allowed = &descriptor.allowed, old_component, new_component, getter = methods.getter, setter = methods.setter, result_type, should_pass_result_ptr]() {
-                    if (!*allowed) {
+                m_property_jobs.push_back([allowed = &descriptor.allowed, new_camera_gameobject, old_component, new_component, getter = methods.getter, setter = methods.setter, result_type, should_pass_result_ptr]() {
+                    if (!*allowed || new_camera_gameobject->shouldUpdate) {
                         return;
                     }
                     
@@ -324,7 +323,7 @@ void CameraDuplicator::copy_camera_properties() {
 
         // Call the various getters and setters
         // FIX (sibest): Camera properties must be set every frame otherwise the new camera flickers
-        if (descriptor.immediate)
+        if (new_camera_gameobject->shouldUpdate)
         for (const auto& [name, methods] : m_getter_setters[t1]) {
             if (methods.getter != nullptr && methods.setter != nullptr) {
                 const auto result = methods.getter->invoke(old_component, {});

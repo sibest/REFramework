@@ -35,37 +35,36 @@ private:
         std::string name{};
         std::unordered_set<size_t> ignored_properties{};
         bool allowed{true}; // used for debug imgui checkbox
-        bool immediate{false}; // used to set which property must be set every frame
     };
 
     // Components that we want to copy from the old camera to the new camera
     std::vector<WantedComponent> m_wanted_components {
         
         /* the first three components have manual properties setting every frame, so the setters/getters must be immediate */
-        WantedComponent{ "via.render.ToneMapping", { "set_InjectingGameObject"_fnv }, true, true }, 
-        WantedComponent{ "via.render.LDRPostProcess", {}, true, true },
-        WantedComponent{ "via.render.SoftBloom", {}, true, true },
+        WantedComponent{ "via.render.ToneMapping", { "set_InjectingGameObject"_fnv }}, 
+        WantedComponent{ "via.render.LDRPostProcess", {}},
+        WantedComponent{ "via.render.SoftBloom", {}},
 
-        WantedComponent{"via.render.Outline", {}, true, true},
-        WantedComponent{ "via.render.Retrofilm", {}, true, true},
-        WantedComponent{"via.render.SSRControl", {}, true, true},
-        WantedComponent{ "via.render.SSAOControl", {}, true, true },
-        WantedComponent{"via.render.SSSSSControl", {}, true, true},
-        WantedComponent{ "via.render.DepthOfField", {}, true, true },
-        WantedComponent{"via.render.LightShaftFilterControl", {}, true, true},
-        WantedComponent{ "via.render.MotionBlur", {}, true, true },
-        WantedComponent{ "via.render.FFTBloom", {}, true, true },
-        WantedComponent{ "via.render.Echo", {}, true, true },
-        WantedComponent{ "via.render.OverlayFXAA", {}, true, true },
-        WantedComponent{ "via.render.TessellationFactor", {}, true, true },
-        WantedComponent{ "via.render.ShadowQualityControl", {}, true, true},
-        WantedComponent{ "via.render.Fog", { "set_FSSunPosGameObject"_fnv }, true, true },
-        WantedComponent{ "via.render.VolumetricFog", { }, true, true },
-        WantedComponent{ "via.render.VolumetricFogControl", { }, true, true },
-        WantedComponent{ "via.render.GodRay", { }, true, true },
-        WantedComponent{ "via.render.GeometryAOControl", { }, true, true },
+        WantedComponent{"via.render.Outline", {}},
+        WantedComponent{ "via.render.Retrofilm", {}},
+        WantedComponent{"via.render.SSRControl", {}},
+        WantedComponent{ "via.render.SSAOControl", {}},
+        WantedComponent{"via.render.SSSSSControl", {}},
+        WantedComponent{ "via.render.DepthOfField", {}},
+        WantedComponent{"via.render.LightShaftFilterControl", {}},
+        WantedComponent{ "via.render.MotionBlur", {}},
+        WantedComponent{ "via.render.FFTBloom", {}},
+        WantedComponent{ "via.render.Echo", {}},
+        WantedComponent{ "via.render.OverlayFXAA", {}},
+        WantedComponent{ "via.render.TessellationFactor", {}},
+        WantedComponent{ "via.render.ShadowQualityControl", {}},
+        WantedComponent{ "via.render.Fog", { "set_FSSunPosGameObject"_fnv }}, 
+        WantedComponent{"via.render.VolumetricFog", {}},
+        WantedComponent{ "via.render.VolumetricFogControl", { }},
+        WantedComponent{ "via.render.GodRay", { }},
+        WantedComponent{ "via.render.GeometryAOControl", { }},
 
-        WantedComponent{ "via.render.FakeLensflare", { }, true, true },
+        WantedComponent{ "via.render.FakeLensflare", { }},
         //WantedComponent{ "via.render.CustomFilter", { } },
     };
 
