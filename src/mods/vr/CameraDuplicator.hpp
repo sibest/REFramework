@@ -65,12 +65,6 @@ private:
         WantedComponent{ "via.render.GodRay", { }, true, true },
         WantedComponent{ "via.render.GeometryAOControl", { }, true, true },
 
-        // arent these needed?
-        //WantedComponent{ "via.render.SubsurfaceSettings", { } },
-        WantedComponent{"via.render.CapturePlane", {}, true, true},
-        WantedComponent{"via.render.CaptureToTexture", {}, true, true},
-        //WantedComponent{ "via.render.ExperimentalRayTrace", {}},
-
         WantedComponent{ "via.render.FakeLensflare", { }, true, true },
         //WantedComponent{ "via.render.CustomFilter", { } },
     };
