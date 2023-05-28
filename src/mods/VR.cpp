@@ -554,6 +554,8 @@ void VR::on_prepare_output_layer_draw(sdk::renderer::layer::PrepareOutput* layer
 bool VR::on_pre_scene_layer_update(sdk::renderer::layer::Scene* layer, void* render_ctx) {
     REF_PROFILE_FUNCTION();
         
+    m_scene_update_mtx.lock();
+
     if (!is_hmd_active()) {
         return true;
     }
@@ -562,11 +564,8 @@ bool VR::on_pre_scene_layer_update(sdk::renderer::layer::Scene* layer, void* ren
         return true;
     }
 
-    
-    m_scene_update_mtx.lock();
-    m_scene_layer_locked = 1;
-
     if (is_using_multipass()) {
+
         auto output_layer = sdk::renderer::get_output_layer();
 
         if (output_layer != nullptr) {
@@ -586,23 +585,18 @@ bool VR::on_pre_scene_layer_update(sdk::renderer::layer::Scene* layer, void* ren
                 }
             }
         }
-    }
 
-    if (is_using_multipass()) {
         auto camera = layer->get_camera();
-
         if (camera != nullptr) {
             if (m_multipass_cameras[0] != nullptr && m_multipass_cameras[1] != nullptr) {
-                if (camera != m_multipass_cameras[0] && camera != m_multipass_cameras[1]) {
-
-                    m_scene_layer_locked = 0;
-                    m_scene_update_mtx.unlock();
+                if (camera != m_multipass_cameras[0] && camera != m_multipass_cameras[1]) 
                     return false;
-                }
+                
             }
         }
+
     }
-    
+
     auto scene_info = layer->get_scene_info();
     auto depth_distortion_scene_info = layer->get_depth_distortion_scene_info();
     auto filter_scene_info = layer->get_filter_scene_info();
@@ -623,10 +617,7 @@ bool VR::on_pre_scene_layer_update(sdk::renderer::layer::Scene* layer, void* ren
 void VR::on_scene_layer_update(sdk::renderer::layer::Scene* layer, void* render_ctx) {
     REF_PROFILE_FUNCTION();
 
-    if (m_scene_layer_locked) {
-        m_scene_layer_locked = 0;
-        ScopeGuard ___([&]() { m_scene_update_mtx.unlock(); });
-    }
+    ScopeGuard ___([&]() { m_scene_update_mtx.unlock(); });
 
     if (!is_hmd_active()) {
         return;
@@ -635,6 +626,7 @@ void VR::on_scene_layer_update(sdk::renderer::layer::Scene* layer, void* render_
     if (!layer->is_fully_rendered()) {
         return;
     }
+
 
     auto& layer_data = m_scene_layer_data[layer];
 

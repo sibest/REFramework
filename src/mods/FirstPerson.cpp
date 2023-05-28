@@ -1647,9 +1647,7 @@ void FirstPerson::update_camera_status() {
 
     const auto is_paused = gui_state == (int32_t)app::ropeway::gui::GUIMaster::GuiState::PAUSE ||
                            gui_state == (int32_t)app::ropeway::gui::GUIMaster::GuiState::INVENTORY ||
-                           m_last_camera_type == app::ropeway::camera::CameraControlType::GAMEOVER ||
-                           m_last_camera_type == app::ropeway::camera::CameraControlType::FIGURE ||
-                           m_last_camera_type == app::ropeway::camera::CameraControlType::TITLE;
+                           m_last_camera_type == app::ropeway::camera::CameraControlType::GAMEOVER;
 
 
     m_last_pause_state = is_paused;

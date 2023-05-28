@@ -436,9 +436,7 @@ private:
     vr::VRActionHandle_t m_action_heal{};
 
     bool m_was_firstperson_toggle_down{false};
-    bool m_was_flashlight_toggle_down{false};
-    volatile int m_scene_layer_locked{0};
-    
+    bool m_was_flashlight_toggle_down{false};    
     
     std::unordered_map<std::string, std::reference_wrapper<vr::VRActionHandle_t>> m_action_handles {
         { "/actions/default/in/Trigger", m_action_trigger },
